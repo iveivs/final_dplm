@@ -21,7 +21,7 @@ export const ModalOrder = ({ currentOpenModalWindow }) => {
         if (currentOpenModalWindow) {
             setLoading(true);
             axios
-                .get(`http://backend:3000/products/${currentOpenModalWindow}`)
+                .get(`http://localhost:3000/products/${currentOpenModalWindow}`)
                 .then((response) => {
                     setProduct(response.data);
                     setLoading(false);

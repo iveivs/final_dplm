@@ -8,7 +8,7 @@ export function AuthInitializer() {
     useEffect(() => {
         const token = localStorage.getItem("authToken");
         if (token) {
-            fetch("http://backend:3000/auth/user", {
+            fetch("/auth/user", {
                 method: "GET",
                 headers: {
                     Authorization: `Bearer ${token}`,

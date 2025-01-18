@@ -21,8 +21,8 @@ export const Reviews = () => {
     };
 
     useEffect(() => {
-        // fetch("http://localhost:3000/reviews")
-        fetch("http://backend:3000/reviews")
+        fetch("http://localhost:3000/reviews")
+        fetch("http://localhost:3000/reviews")
             .then((response) => response.json())
             .then((data) => {
                 setReviews(data);

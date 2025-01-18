@@ -18,7 +18,7 @@ function PageProducts() {
 
     useEffect(() => {
         // fetch('http://localhost:3000/products')
-        fetch('http://backend:3000/products')
+        fetch('/products')
         .then((response) => response.json())
         .then((data) => {
             setProducts(data)

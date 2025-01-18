@@ -26,7 +26,7 @@ export const Registration = () => {
 
     const addNewUserToServer = (newUser) => {
         // fetch('http://localhost:3000/auth/register', { 
-        fetch('http://backend:3000/auth/register', { 
+        fetch('http://localhost:3000/auth/register', { 
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

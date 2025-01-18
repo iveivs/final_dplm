@@ -50,7 +50,7 @@ export const Cart = () => {
     const handleBuy = () => {
         if (currentUser.login) {
             // fetch("http://localhost:3000/orders", {
-            fetch("http://backend:3000/orders", {
+            fetch("http://localhost:3000/orders", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
