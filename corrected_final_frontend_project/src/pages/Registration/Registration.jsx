@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addUser } from "../../actions/add-user";
+import { API_HOST } from "../../config";
 
 export const Registration = () => {
     const [userLogin, setUserLogin] = useState("");
@@ -21,34 +22,32 @@ export const Registration = () => {
 
     const validateEmail = (email) => {
         const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
-        return emailRegex.test(email)
-    }
+        return emailRegex.test(email);
+    };
 
     const addNewUserToServer = (newUser) => {
-        // fetch('http://localhost:3000/auth/register', { 
-        fetch('http://backend:3000/auth/register', { 
-            method: 'POST',
+        fetch(`${API_HOST}/auth/register`, {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json",
             },
-            body: JSON.stringify(newUser)
+            body: JSON.stringify(newUser),
         })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error('Registration failed');
-            }
-            return response.json();
-        })
-        .then((data) => {
-            localStorage.setItem("authToken", data.token);
-            setIsUserCreated(true);
-        })
-        .catch((error) => {
-            console.error("Error registering user:", error);
-            setError("Registration failed. Please try again.");
-        });
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Registration failed");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                localStorage.setItem("authToken", data.token);
+                setIsUserCreated(true);
+            })
+            .catch((error) => {
+                console.error("Error registering user:", error);
+                setError("Registration failed. Please try again.");
+            });
     };
-    
 
     const onSubmit = () => {
         if (!validatePassword(userPassword)) {
@@ -61,23 +60,23 @@ export const Registration = () => {
             setError("Пароли не совпадают.");
             return;
         }
-        if(!validateEmail(userEmail)) {
-            setError("Введите корректный e-mail.")
-            return
+        if (!validateEmail(userEmail)) {
+            setError("Введите корректный e-mail.");
+            return;
         }
 
         const userData = {
-            username: userLogin, 
+            username: userLogin,
             password: userPassword,
             email: userEmail,
         };
 
         setIsUserCreated(true);
         dispatch(addUser(userData.username, userData.password, userData.email));
-        addNewUserToServer(userData)
+        addNewUserToServer(userData);
         setError("");
     };
-    
+
     return (
         <div className="container indent">
             {isUserCreated ? (
@@ -133,5 +132,3 @@ export const Registration = () => {
         </div>
     );
 };
-
-

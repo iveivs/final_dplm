@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { addUser } from "../../actions/add-user";
 import { selectCurrentUser } from "../../selectors/select-current-user";
+import { API_HOST } from "../../config";
 
 export const Authorization = () => {
     const currentUser = useSelector(selectCurrentUser);
@@ -23,12 +24,15 @@ export const Authorization = () => {
         }
         try {
             // const response = await fetch("http://localhost:3000/auth/login", {
-            const response = await fetch("http://backend:3000/auth/login", {
+            const response = await fetch(`${API_HOST}/auth/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ username: userLogin, password: userPassword }),
+                body: JSON.stringify({
+                    username: userLogin,
+                    password: userPassword,
+                }),
             });
 
             if (!response.ok) {

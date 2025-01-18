@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addUser } from "../actions/add-user";
+import { API_HOST } from "../config";
 
 export function AuthInitializer() {
     const dispatch = useDispatch();
@@ -8,7 +9,7 @@ export function AuthInitializer() {
     useEffect(() => {
         const token = localStorage.getItem("authToken");
         if (token) {
-            fetch("http://backend:3000/auth/user", {
+            fetch(`${API_HOST}/auth/user`, {
                 method: "GET",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -30,5 +31,5 @@ export function AuthInitializer() {
         }
     }, [dispatch]);
 
-    return null; 
+    return null;
 }

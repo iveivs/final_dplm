@@ -9,6 +9,7 @@ import {
     decreaceProductAmount,
 } from "../../../utils/utils";
 import { AmountCounter } from "../AmountCounter/AmountCounter";
+import { API_HOST } from "../../../config";
 
 // eslint-disable-next-line react/prop-types
 export const ModalOrder = ({ currentOpenModalWindow }) => {
@@ -21,7 +22,7 @@ export const ModalOrder = ({ currentOpenModalWindow }) => {
         if (currentOpenModalWindow) {
             setLoading(true);
             axios
-                .get(`http://backend:3000/products/${currentOpenModalWindow}`)
+                .get(`${API_HOST}/products/${currentOpenModalWindow}`)
                 .then((response) => {
                     setProduct(response.data);
                     setLoading(false);

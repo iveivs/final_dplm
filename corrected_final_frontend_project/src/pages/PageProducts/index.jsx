@@ -6,39 +6,39 @@ import { selectModal } from "../../selectors/select-modal";
 import { openModal } from "../../actions/open-modal";
 import { ModalOrder } from "../../components/Layout/Modal/ModalOrder";
 import { useEffect } from "react";
+import { API_HOST } from "../../config";
 
 function PageProducts() {
-    
-    const [currentOpenModalWindow, setCurrentOpenModalWindow] = useState(null)
+    const [currentOpenModalWindow, setCurrentOpenModalWindow] = useState(null);
     // eslint-disable-next-line no-unused-vars
     const [loading, setLoading] = useState(true);
-    const [products, setProducts] = useState([])
+    const [products, setProducts] = useState([]);
     const dispatch = useDispatch();
 
-
     useEffect(() => {
-        // fetch('http://localhost:3000/products')
-        fetch('http://backend:3000/products')
-        .then((response) => response.json())
-        .then((data) => {
-            setProducts(data)
-            setLoading(false)
-        })
-        .catch((error) => {
-            console.error("Error fetching data:", error);
-            setLoading(false);
-        });
-    }, [])
+        fetch(`${API_HOST}/products`)
+            .then((response) => response.json())
+            .then((data) => {
+                setProducts(data);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.error("Error fetching data:", error);
+                setLoading(false);
+            });
+    }, []);
 
     const isModalOpen = useSelector(selectModal);
 
     const orderProduct = (id) => {
         dispatch(openModal());
-        setCurrentOpenModalWindow(id)
+        setCurrentOpenModalWindow(id);
     };
     return (
         <>
-            {isModalOpen.isOpen ? <ModalOrder currentOpenModalWindow={currentOpenModalWindow} /> : null}
+            {isModalOpen.isOpen ? (
+                <ModalOrder currentOpenModalWindow={currentOpenModalWindow} />
+            ) : null}
             <div className="indent container">
                 <h2 id="product" className={`${styles.products_title}`}>
                     Products
@@ -75,7 +75,9 @@ function PageProducts() {
                                                 {product.price} ₽
                                             </p>
                                             <a
-                                                onClick={() => orderProduct(product._id)}
+                                                onClick={() =>
+                                                    orderProduct(product._id)
+                                                }
                                                 className={
                                                     styles.product_button
                                                 }

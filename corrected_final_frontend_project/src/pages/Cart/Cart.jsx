@@ -8,11 +8,12 @@ import { cleanCart } from "../../actions/clean-cart";
 import { getTotalPrice } from "../../utils/utils";
 import { addProductToCart } from "../../actions/add-product-to-cart";
 import { useNavigate } from "react-router-dom";
+import { API_HOST } from "../../config";
 
 export const Cart = () => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const currentOrder = useSelector(selectProductOrder);
-    const currentUser = useSelector(selectCurrentUser); 
+    const currentUser = useSelector(selectCurrentUser);
     const dispatch = useDispatch();
 
     const totalPrice = getTotalPrice(currentOrder);
@@ -35,7 +36,7 @@ export const Cart = () => {
         }
         dispatch(cleanCart());
         updatedOrder.forEach((item) => {
-            if (item.amount > 0) dispatch(addProductToCart(item)); 
+            if (item.amount > 0) dispatch(addProductToCart(item));
         });
     };
 
@@ -49,8 +50,7 @@ export const Cart = () => {
 
     const handleBuy = () => {
         if (currentUser.login) {
-            // fetch("http://localhost:3000/orders", {
-            fetch("http://backend:3000/orders", {
+            fetch(`${API_HOST}/orders`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -75,7 +75,7 @@ export const Cart = () => {
                     setModalMessage(
                         "Заказ принят в обработку. Вам выслано письмо с подтверждением заказа."
                     );
-                    dispatch(cleanCart()); 
+                    dispatch(cleanCart());
                 })
                 .catch((error) => {
                     console.error("Error processing order:", error);
@@ -94,7 +94,7 @@ export const Cart = () => {
     const closeModal = () => {
         setModalVisible(false);
         setModalMessage("");
-        navigate("/")
+        navigate("/");
     };
 
     return (

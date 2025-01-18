@@ -1,10 +1,11 @@
+import { API_HOST } from "../../../config";
 import styles from "./Reviews.module.css";
 import { useEffect, useState } from "react";
 
 export const Reviews = () => {
     const [reviews, setReviews] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [loading, setLoading] = useState(true); 
+    const [loading, setLoading] = useState(true);
 
     const visibleReviews = reviews.slice(currentIndex, currentIndex + 3);
 
@@ -21,23 +22,24 @@ export const Reviews = () => {
     };
 
     useEffect(() => {
-        // fetch("http://localhost:3000/reviews")
-        fetch("http://backend:3000/reviews")
+        fetch(`${API_HOST}/reviews`)
             .then((response) => response.json())
             .then((data) => {
                 setReviews(data);
-                setLoading(false); 
+                setLoading(false);
             })
             .catch((error) => {
                 console.error("Error loading reviews:", error);
-                setLoading(false); 
+                setLoading(false);
             });
     }, []);
 
     return (
         <div className="container indent ">
-            <h2 id="reviews" className={styles.reviews_title}>Reviews</h2>
-            {loading ? ( 
+            <h2 id="reviews" className={styles.reviews_title}>
+                Reviews
+            </h2>
+            {loading ? (
                 <div className={styles.loader}>Loading...</div>
             ) : (
                 <div className={styles.items_wrapper}>
@@ -76,6 +78,3 @@ export const Reviews = () => {
         </div>
     );
 };
-
-
-

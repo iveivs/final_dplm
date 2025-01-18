@@ -1,32 +1,31 @@
 services:
-  backend:
-    build:
-      context: ./enhanced_backend_project
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-    environment:
-      MONGO_URI: mongodb+srv://iveivs1985:SUPERpassword@cluster0.sq9gs.mongodb.net/mydatabase?retryWrites=true&w=majority
-      JWT_SECRET: your_secret_key
-      PORT: 3000
-    depends_on:
-      - mongo
+    backend:
+        build:
+            context: ./enhanced_backend_project
+            dockerfile: Dockerfile
+        ports:
+            - "8081:3000"
+        environment:
+            MONGO_URI: mongodb+srv://iveivs1985:SUPERpassword@cluster0.sq9gs.mongodb.net/mydatabase?retryWrites=true&w=majority
+            JWT_SECRET: your_secret_key
+            PORT: 3000
+        depends_on:
+            - mongo
 
-  mongo:
-    image: mongo:latest
-    container_name: mongo
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo-data:/data/db
+    # mongo:
+    #     image: mongo:latest
+    #     container_name: mongo
+    #     # ports:
+    #     # - "27017:27017"
+    #     volumes:
+    #         - mongo-data:/data/db
 
-  frontend:
-    build:
-      context: ./corrected_final_frontend_project
-      dockerfile: Dockerfile
-    ports:
-      - "80:80"
+    frontend:
+        build:
+            context: ./corrected_final_frontend_project
+            dockerfile: Dockerfile
+        ports:
+            - "80:80"
 
 volumes:
-  mongo-data:
-
+    mongo-data:
