@@ -1,0 +1,60 @@
+.overlay {
+    /* position: absolute; */
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    padding-top: 100px;
+    background-color: rgba(0,0,0, .3);
+    z-index: 10;
+    /* opacity: 10%; */
+    
+}
+.wrapper {
+    width: 800px;
+    height: 400px;
+    background-color: #fff;
+    margin: 0 auto;
+    z-index: 100;
+    border-radius: 10px;
+}
+.item {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    padding-top: 20px;
+}
+.img {
+    padding-top: 30px;
+    padding-left: 20px;
+    width: 40%;
+}
+.info {
+    /* padding-top: 60px; */
+    /* text-align: left; */
+}
+.title {
+    margin-bottom: 20px;
+}
+.amount {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(0,0,0, 0.4);
+    width: 60px;
+    border-radius: 20px;
+}
+.description {
+    margin-bottom: 20px;
+}
+.increace {
+    cursor: pointer;
+}
+.decreace {
+    /* font-size: 49px; */
+    cursor: pointer;
+}
+.price {
+    margin-bottom: 20px;
+}

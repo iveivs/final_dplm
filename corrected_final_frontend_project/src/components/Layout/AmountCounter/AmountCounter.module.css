@@ -1,0 +1,16 @@
+.amount {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(0,0,0, 0.4);
+    width: 60px;
+    border-radius: 20px;
+}
+
+.increace {
+    cursor: pointer;
+}
+.decreace {
+    cursor: pointer;
+}

@@ -1,0 +1,325 @@
+.cart_title {
+    margin-bottom: 60px;
+}
+.cart_img {
+    width: 200px;
+    height: 200px;
+}
+.cart_item {
+    display: flex;
+    border-top: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 40px;
+}
+.modif_btn {
+    padding: 10px !important;
+}
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+}
+.total_orderinfo {
+    width: 390px;
+    /* border: 1px solid #ccc; */
+    padding: 20px;
+    border-radius: 20px;
+    /* position: relative; */
+    text-align: right;
+}
+.cart_item_info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.order_name {
+    margin-bottom: 10px;
+}
+.modif_btn {
+    margin-top: 12px;
+    width: 120px;
+    text-align: center;
+}
+.modif_btn i {
+    margin-right: 10px;
+}
+.amount {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(0,0,0, 0.4);
+    width: 60px;
+    border-radius: 20px;
+}
+.decreace {
+    cursor: pointer;
+}
+.increace {
+    cursor: pointer;
+}
+.total_price_text {
+    margin-bottom: 20px;
+}
+.delete_btn {
+    /* position: absolute; */
+    /* right: 12px; */
+    font-size: 18px !important;
+    width: 200px;
+    
+}
+.buy_btn {
+    font-size: 18px !important;
+    width: 200px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.delete_btn i {
+    margin-right: 10px;
+    
+}
+.buy_btn i {
+    margin-right: 10px;
+    
+}
+
+
+
+Чтобы реализовать логику с модальным окном при нажатии на кнопку Buy, нужно сделать следующее:
+
+Шаги:
+Добавить состояние для модального окна:
+
+Для контроля отображения модального окна (useState).
+Для отображения разного текста в зависимости от состояния пользователя.
+Проверить авторизацию пользователя:
+
+С помощью useSelector из Redux получить текущего пользователя.
+Проверить, авторизован ли он (например, по наличию currentUser.login).
+Отобразить модальное окно:
+
+Показать соответствующее сообщение:
+Если пользователь авторизован, показать подтверждение заказа.
+Если пользователь не авторизован, предложить авторизоваться.
+Закрыть модальное окно:
+
+Добавить кнопку для закрытия окна, которая сбрасывает состояние модального окна.
+Реализованный код:
+javascript
+Копировать
+Редактировать
+import { useState } from "react";
+import styles from "./Cart.module.css";
+import { useSelector, useDispatch } from "react-redux";
+import { selectProductOrder } from "../../selectors/select-product-order";
+import { selectCurrentUser } from "../../selectors/select-current-user";
+import { removeProductFromCart } from "../../actions/remove-product-from-cart";
+import { cleanCart } from "../../actions/clean-cart";
+import { getTotalPrice } from "../../utils/utils";
+
+export const Cart = () => {
+    const currentOrder = useSelector(selectProductOrder);
+    const currentUser = useSelector(selectCurrentUser); // Получаем текущего пользователя
+    const dispatch = useDispatch();
+
+    const totalPrice = getTotalPrice(currentOrder);
+
+    // Состояние для модального окна
+    const [isModalVisible, setModalVisible] = useState(false);
+    const [modalMessage, setModalMessage] = useState("");
+
+    const handleDelete = (id) => {
+        dispatch(removeProductFromCart(id));
+    };
+
+    const decreaceProductAmount = (id) => {
+        dispatch(cleanCart());
+        const changedOrderAmount = currentOrder.map((elem) => {
+            if (elem.id === id && elem.amount !== 0) {
+                elem.amount -= 1;
+            }
+            dispatch(addProductToCart(elem));
+            if (elem.amount === 0) {
+                dispatch(removeProductFromCart(id));
+            }
+            return elem;
+        });
+    };
+
+    const increaceProductAmount = (id) => {
+        dispatch(cleanCart());
+        const changedOrderAmount = currentOrder.map((elem) => {
+            if (elem.id === id) {
+                elem.amount += 1;
+            }
+            dispatch(addProductToCart(elem));
+            return elem;
+        });
+    };
+
+    const handleBuy = () => {
+        if (currentUser.login) {
+            // Если пользователь авторизован
+            setModalMessage(
+                "Заказ принят в обработку. Вам выслано письмо с подтверждением заказа."
+            );
+        } else {
+            // Если пользователь не авторизован
+            setModalMessage(
+                "Пожалуйста, авторизуйтесь или зарегистрируйтесь для оформления заказа."
+            );
+        }
+        setModalVisible(true);
+    };
+
+    const closeModal = () => {
+        setModalVisible(false);
+        setModalMessage("");
+    };
+
+    return (
+        <div className="container indent">
+            <h1 className={styles.cart_title}>Your order:</h1>
+            <div className={styles.wrapper}>
+                <div className={styles.items_wrapper}>
+                    {currentOrder.length ? (
+                        currentOrder.map((order, i) => (
+                            <div key={i} className={styles.cart_item}>
+                                <img
+                                    className={styles.cart_img}
+                                    src={order.src}
+                                    alt="pizza image"
+                                />
+                                <div className={styles.cart_item_info}>
+                                    <h3 className={styles.order_name}>
+                                        {order.name}
+                                    </h3>
+                                    <p>{order.description}</p>
+                                    <div className={styles.amount}>
+                                        <p
+                                            className={styles.decreace}
+                                            onClick={() =>
+                                                decreaceProductAmount(order.id)
+                                            }
+                                        >
+                                            –
+                                        </p>
+                                        <p>{order.amount}</p>
+                                        <p
+                                            className={styles.increace}
+                                            onClick={() =>
+                                                increaceProductAmount(order.id)
+                                            }
+                                        >
+                                            +
+                                        </p>
+                                    </div>
+                                    <p>Amount: {order.amount}</p>
+                                    <p>Price: {order.price}</p>
+                                    <div
+                                        className={`${styles.modif_btn} button`}
+                                        onClick={() => handleDelete(order.id)}
+                                    >
+                                        <i
+                                            className="fa fa-trash-o"
+                                            aria-hidden="true"
+                                        ></i>
+                                        Delete
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+                    ) : (
+                        <>Your cart is empty</>
+                    )}
+                </div>
+                <div className={styles.total_orderinfo}>
+                    {currentOrder.length ? (
+                        <>
+                            <h2 className={styles.total_price_text}>
+                                total price: {totalPrice} ₽
+                            </h2>
+                            <div
+                                className={`button ${styles.buy_btn}`}
+                                onClick={handleBuy}
+                            >
+                                <i
+                                    className="fa fa-credit-card"
+                                    aria-hidden="true"
+                                ></i>
+                                Buy
+                            </div>
+                            <div
+                                className={`button ${styles.delete_btn}`}
+                                onClick={() => dispatch(cleanCart())}
+                            >
+                                <i
+                                    className="fa fa-trash-o"
+                                    aria-hidden="true"
+                                ></i>
+                                Delete order
+                            </div>
+                        </>
+                    ) : (
+                        <h2>total price: 0 ₽</h2>
+                    )}
+                </div>
+            </div>
+
+            {/* Модальное окно */}
+            {isModalVisible && (
+                <div className={styles.modal}>
+                    <div className={styles.modal_content}>
+                        <p>{modalMessage}</p>
+                        <button
+                            className={`button ${styles.close_btn}`}
+                            onClick={closeModal}
+                        >
+                            OK
+                        </button>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+Объяснение:
+Модальное окно:
+
+Появляется при нажатии на кнопку Buy.
+В зависимости от состояния пользователя (currentUser.login), отображается разное сообщение.
+Стилизация модального окна:
+
+Добавьте стили для .modal и .modal_content в CSS, чтобы окно выглядело аккуратно.
+Закрытие окна:
+
+Кнопка OK скрывает окно и очищает сообщение.
+Пример стилей для модального окна:
+css
+Копировать
+Редактировать
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal_content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    width: 300px;
+}
+
+.close_btn {
+    margin-top: 20px;
+}

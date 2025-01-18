@@ -1,0 +1,85 @@
+.cart_title {
+    margin-bottom: 60px;
+}
+.cart_img {
+    width: 200px;
+    height: 200px;
+}
+.cart_item {
+    display: flex;
+    border-top: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 40px;
+}
+.modif_btn {
+    padding: 10px !important;
+}
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+}
+.total_orderinfo {
+    width: 390px;
+    /* border: 1px solid #ccc; */
+    padding: 20px;
+    border-radius: 20px;
+    /* position: relative; */
+    text-align: right;
+}
+.cart_item_info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.order_name {
+    margin-bottom: 10px;
+}
+.modif_btn {
+    margin-top: 12px;
+    width: 120px;
+    text-align: center;
+}
+.modif_btn i {
+    margin-right: 10px;
+}
+.amount {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(0,0,0, 0.4);
+    width: 60px;
+    border-radius: 20px;
+}
+.decreace {
+    cursor: pointer;
+}
+.increace {
+    cursor: pointer;
+}
+.total_price_text {
+    margin-bottom: 20px;
+}
+.delete_btn {
+    /* position: absolute; */
+    /* right: 12px; */
+    font-size: 18px !important;
+    width: 200px;
+    
+}
+.buy_btn {
+    font-size: 18px !important;
+    width: 200px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.delete_btn i {
+    margin-right: 10px;
+    
+}
+.buy_btn i {
+    margin-right: 10px;
+    
+}

@@ -1,0 +1,111 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "name": "Pizza Mixic",
+      "description": "Quarter pizza with ham, chicken, tomatoes, feta cheese, mozzarella, signature alfredo sauce",
+      "price": 899,
+      "src": "/images/product_1.avif"
+    },
+    {
+      "id": "2",
+      "name": "Pizza Julien",
+      "description": "Chicken, champignons, creamy mushroom sauce, red onion, garlic, mozzarella, cheddar and parmesan cheese mixture, signature alfredo sauce",
+      "price": 799,
+      "src": "/images/product_2.avif"
+    },
+    {
+      "id": "3",
+      "name": "Pepperoni fresh",
+      "description": "Spicy pepperoni, increased portion of mozzarella, tomatoes, signature tomato sauce",
+      "price": 699,
+      "src": "/images/product_3.avif"
+    },
+    {
+      "id": "4",
+      "name": "Ham and cheese",
+      "description": "Ham, mozzarella, special alfredo sauce",
+      "price": 899,
+      "src": "/images/product_4.avif"
+    },
+    {
+      "id": "5",
+      "name": "Товар 5",
+      "description": "some description text",
+      "price": 699,
+      "src": "/images/product_4.avif"
+    },
+    {
+      "id": "6",
+      "name": "Товар 6",
+      "description": "some description text",
+      "price": 799,
+      "src": "/images/product_3.avif"
+    },
+    {
+      "id": "7",
+      "name": "Товар 7",
+      "description": "some description text",
+      "price": 599,
+      "src": "/images/product_2.avif"
+    },
+    {
+      "id": "8",
+      "name": "Товар 8",
+      "description": "some description text",
+      "price": 699,
+      "src": "/images/product_1.avif"
+    }
+  ],
+  "users": [
+    {
+      "id": "27be",
+      "login": "veiv",
+      "password": "qwer",
+      "email": "veiv@mail.ru"
+    },
+    {
+      "id": "923d",
+      "login": "asd",
+      "password": "asdf",
+      "email": "asd@a.a"
+    }
+  ],
+  "reviews": [
+    {
+      "id": "1",
+      "name": "John",
+      "text": "Lorem ipsum dolor sit amet consectetur adipisicing elit. A possimus dolorem nostrum minima odit fugiat velit praesentium commodi atque blanditiis repudiandae, neque expedita omnis nobis minus ipsa illo veniam illum!",
+      "rating": 5,
+      "src": "/images/review_1.avif"
+    },
+    {
+      "id": "2",
+      "name": "Mat",
+      "text": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam, dicta explicabo recusandae aperiam, nemo voluptatem quos et hic ducimus dignissimos, est atque corporis doloremque. Qui necessitatibus obcaecati saepe repellat quibusdam!",
+      "rating": 5,
+      "src": "/images/review_2.avif"
+    },
+    {
+      "id": "3",
+      "name": "Poul",
+      "text": "Lorem ipsum dolor sit amet consectetur adipisicing elit. A possimus dolorem nostrum minima odit fugiat velit praesentium commodi atque blanditiis repudiandae, neque expedita omnis nobis minus ipsa illo veniam illum!",
+      "rating": 5,
+      "src": "/images/review_3.avif"
+    },
+    {
+      "id": "4",
+      "name": "Mickle",
+      "text": "Lorem ipsum dolor sit amet consectetur adipisicing elit. A possimus dolorem nostrum minima odit fugiat",
+      "rating": 5,
+      "src": "/images/review_1.avif"
+    },
+    {
+      "id": "5",
+      "name": "James",
+      "text": "Lorem ipsum dolor sit amet consectetur adipisicing elit. A possimus dolorem nostrum minima odit fugiat velit praesentium commodi atque blanditiis repudiandae, neque expedita omnis nobis minus ipsa illo veniam illum!",
+      "rating": 5,
+      "src": "/images/review_2.avif"
+    }
+  ]
+}
