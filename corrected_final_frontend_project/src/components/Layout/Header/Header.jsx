@@ -6,13 +6,14 @@ import { selectProductOrder } from "../../../selectors/select-product-order";
 import { logout } from "../../../actions/logout";
 
 function Header() {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const currentUser = useSelector(selectCurrentUser);
     const orderAmount = useSelector(selectProductOrder);
 
     const logOut = () => {
-        dispatch(logout())
-    }
+        dispatch(logout());
+    };
+
     return (
         <header className={styles.header}>
             <div className="container">
@@ -25,7 +26,7 @@ function Header() {
                         />
                     </div>
                     <nav className={`${styles.menu} col-3`}>
-                        <ul className={`${styles.menu_items} `}>
+                        <ul className={`${styles.menu_items}`}>
                             <li className={`${styles.menu_item}`}>
                                 <Link to="/">
                                     <div
@@ -49,6 +50,14 @@ function Header() {
                                     className={`${styles.menu_item_link} ${styles.underline_effect}`}
                                 >
                                     Reviews
+                                </a>
+                            </li>
+                            <li className={`${styles.menu_item}`}>
+                                <a
+                                    href="#info"
+                                    className={`${styles.menu_item_link} ${styles.underline_effect}`}
+                                >
+                                    Info
                                 </a>
                             </li>
                         </ul>
@@ -76,7 +85,7 @@ function Header() {
                             </Link>
                         </div>
                         <div className={`${styles.account}`}>
-                            {currentUser.login ? (
+                            {currentUser?.login ? (
                                 <i
                                     className="fa fa-sign-out"
                                     aria-hidden="true"
@@ -84,7 +93,7 @@ function Header() {
                                 ></i>
                             ) : null}
                         </div>
-                        <p>{currentUser.login ? currentUser.login : "Guest"}</p>
+                        <p>{currentUser?.login || "Guest"}</p>
                     </div>
                 </div>
             </div>

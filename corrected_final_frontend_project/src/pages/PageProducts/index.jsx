@@ -1,39 +1,36 @@
+import React, { useEffect } from "react";
 import styles from "./PageProducts.module.css";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchProducts } from "../../actions/productsActions";
+import { selectProductsLoading, selectProductsError } from "../../selectors/productsSelectors";
 import { isDataArray } from "../../utils/utils";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { selectModal } from "../../selectors/select-modal";
 import { openModal } from "../../actions/open-modal";
 import { ModalOrder } from "../../components/Layout/Modal/ModalOrder";
-import { useEffect } from "react";
-import { API_HOST } from "../../config";
+import { Find } from "../../components/Layout/Find/Find";
+import { Sort } from "../../components/Layout/Sort/Sort"; 
 
 function PageProducts() {
-    const [currentOpenModalWindow, setCurrentOpenModalWindow] = useState(null);
-    // eslint-disable-next-line no-unused-vars
-    const [loading, setLoading] = useState(true);
-    const [products, setProducts] = useState([]);
     const dispatch = useDispatch();
+    const products = useSelector((state) => state.products.filteredProducts); 
+    const loading = useSelector(selectProductsLoading);
+    const error = useSelector(selectProductsError);
+    const isModalOpen = useSelector(selectModal);
+
+    const [currentOpenModalWindow, setCurrentOpenModalWindow] = React.useState(null);
 
     useEffect(() => {
-        fetch(`${API_HOST}/products`)
-            .then((response) => response.json())
-            .then((data) => {
-                setProducts(data);
-                setLoading(false);
-            })
-            .catch((error) => {
-                console.error("Error fetching data:", error);
-                setLoading(false);
-            });
-    }, []);
-
-    const isModalOpen = useSelector(selectModal);
+        dispatch(fetchProducts());
+    }, [dispatch]);
 
     const orderProduct = (id) => {
         dispatch(openModal());
         setCurrentOpenModalWindow(id);
     };
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error: {error}</p>;
+
     return (
         <>
             {isModalOpen.isOpen ? (
@@ -43,8 +40,10 @@ function PageProducts() {
                 <h2 id="product" className={`${styles.products_title}`}>
                     Products
                 </h2>
+                <Find />
+                <Sort /> 
                 <div className="row">
-                    {isDataArray(products) ? (
+                    {isDataArray(products) && products.length > 0 ? (
                         products.map((product) => {
                             return (
                                 <div
@@ -100,7 +99,9 @@ function PageProducts() {
                             );
                         })
                     ) : (
-                        <p>Товары не найдены</p>
+                        <p className={styles.no_products_message}>
+                            No products found.
+                        </p>
                     )}
                 </div>
             </div>

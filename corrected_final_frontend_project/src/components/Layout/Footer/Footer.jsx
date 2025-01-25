@@ -38,19 +38,16 @@ function Footer() {
                         <ul className={styles.footer_items}>
                             <li className="footer_item">
                                 <a href="" className="footer_item_link">
-                                    {/* <i className="ti ti-brand-facebook"></i> */}
                                     <span>Facebook</span>
                                 </a>
                             </li>
                             <li className="footer_item">
                                 <a href="" className="footer_item_link">
-                                    {/* <i className="ti ti-brand-instagram"></i> */}
                                     <span>Instagram</span>
                                 </a>
                             </li>
                             <li className="footer_item">
                                 <a href="" className="footer_item_link">
-                                    {/* <i className="ti ti-brand-whatsapp"></i> */}
                                     <span>WhatsApp</span>
                                 </a>
                             </li>
@@ -64,7 +61,6 @@ function Footer() {
                                     href="tel:+7-(987)-65-43-21"
                                     className="footer_item_link"
                                 >
-                                    {/* <i className="ti ti-phone-call"></i> */}
                                     <span>+7-(987)-65-43-21</span>
                                 </a>
                             </li>
@@ -73,7 +69,6 @@ function Footer() {
                                     href="#ссылка_на_карту"
                                     className="footer_item_link"
                                 >
-                                    {/* <i className="ti ti-map-pin"></i> */}
                                     <span>Moscow, Lenina st. 1</span>
                                 </a>
                             </li>
@@ -82,7 +77,6 @@ function Footer() {
                                     href="mailto:info@pizza.ru"
                                     className="footer_item_link"
                                 >
-                                    {/* <i className="ti ti-mail-opened"></i> */}
                                     <span>info@pizza.ru</span>
                                 </a>
                             </li>

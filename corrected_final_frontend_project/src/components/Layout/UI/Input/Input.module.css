@@ -1,0 +1,15 @@
+.input {
+    padding: 6px 12px;
+    border: 1px solid rgb(236, 67, 0);
+    height: 40px;
+    font-size: 18px;
+    border-radius: 20px;
+    width: 100%; /* Чтобы занимало всю доступную ширину */
+    box-sizing: border-box;
+}
+
+.input:focus {
+    outline: none;
+    border-color: #ec4300;
+    box-shadow: 0 0 5px rgba(236, 67, 0, 0.5);
+}

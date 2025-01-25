@@ -7,7 +7,6 @@ function Banner () {
         <section className="banner">
                 <div className="container">
                     <div className={`${styles.modif_row}`}>
-                    {/* <div className="row"> */}
                         <div className={`${styles.left_infobox} col-5 `}>
                             <h1 className={styles.banner_title}>pizza delivery</h1>
                             <p className={styles.banner_description}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur assumenda debitis ducimus, odio reiciendis vero exercitationem aliquid nam inventore eius reprehenderit nisi blanditiis iste eligendi sint voluptate eos expedita quos.</p>

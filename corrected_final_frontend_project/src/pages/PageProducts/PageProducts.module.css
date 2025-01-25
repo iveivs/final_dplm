@@ -1,7 +1,7 @@
 .products_title {
     text-align: center;
     font-size: 48px;
-    margin-bottom: 40px;
+    margin-bottom: 80px;
 }
 
 .product_item {
@@ -63,4 +63,11 @@
 .product_order {
     margin-left: 6px;
     font-size: 14px;
+}
+
+.no_products_message {
+    text-align: center;
+    font-size: 18px;
+    color: #555;
+    margin-top: 20px;
 }

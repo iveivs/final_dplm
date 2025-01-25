@@ -22,34 +22,37 @@ export const registerUser = async (req, res) => {
   }
 };
 
+
 export const loginUser = async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    const user = await User.findOne({ email: username });
-    console.log("Найденный пользователь в базе данных:", user);
+    const user = await User.findOne({ email: username }); 
 
     if (!user) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
-    console.log("Результат сравнения пароля:", isMatch);
 
     if (!isMatch) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+
     res.json({
       token,
       email: user.email,
       username: user.username,
+      phone: user.phone || null, 
     });
   } catch (error) {
+    console.error("Error in loginUser:", error);
     res.status(500).json({ error: "Login failed" });
   }
 };
+
 
 export const getAllUsers = async (req, res) => {
   try {
@@ -62,20 +65,21 @@ export const getAllUsers = async (req, res) => {
 
 export const getCurrentUser = async (req, res) => {
   try {
-      const token = req.headers.authorization?.split(" ")[1];
-      if (!token) {
-          return res.status(401).json({ error: "Access denied. No token provided." });
-      }
+    const token = req.headers.authorization?.split(" ")[1];
+    if (!token) {
+      return res.status(401).json({ error: "Access denied. No token provided." });
+    }
 
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      const user = await User.findById(decoded.id, "username email");
-      if (!user) {
-          return res.status(404).json({ error: "User not found." });
-      }
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.id, "username email phone"); 
+    if (!user) {
+      return res.status(404).json({ error: "User not found." });
+    }
 
-      res.status(200).json(user);
+    res.status(200).json(user); 
   } catch (error) {
-      console.error("Error fetching user:", error);
-      res.status(500).json({ error: "Failed to fetch user." });
+    console.error("Error fetching user:", error);
+    res.status(500).json({ error: "Failed to fetch user." });
   }
 };
+

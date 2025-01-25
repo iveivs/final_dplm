@@ -9,6 +9,8 @@ import { getTotalPrice } from "../../utils/utils";
 import { addProductToCart } from "../../actions/add-product-to-cart";
 import { useNavigate } from "react-router-dom";
 import { API_HOST } from "../../config";
+import { updateOrderQuantity } from "../../utils/cartUtils";
+import { processOrder } from "../../utils/cartUtils";
 
 export const Cart = () => {
     const navigate = useNavigate();
@@ -26,12 +28,8 @@ export const Cart = () => {
     };
 
     const decreaceProductAmount = (id) => {
-        const updatedOrder = currentOrder.map((item) =>
-            item.id === id && item.amount > 1
-                ? { ...item, amount: item.amount - 1 }
-                : item
-        );
-        if (updatedOrder.find((item) => item.id === id)?.amount === 1) {
+        const updatedOrder = updateOrderQuantity(currentOrder, id, -1);
+        if (updatedOrder.find((item) => item.id === id)?.amount === 0) {
             dispatch(removeProductFromCart(id));
         }
         dispatch(cleanCart());
@@ -41,60 +39,48 @@ export const Cart = () => {
     };
 
     const increaceProductAmount = (id) => {
-        const updatedOrder = currentOrder.map((item) =>
-            item.id === id ? { ...item, amount: item.amount + 1 } : item
-        );
+        const updatedOrder = updateOrderQuantity(currentOrder, id, 1);
         dispatch(cleanCart());
         updatedOrder.forEach((item) => dispatch(addProductToCart(item)));
     };
 
-    const handleBuy = () => {
-        if (currentUser.login) {
-            fetch(`${API_HOST}/orders`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    user: {
-                        username: currentUser.login,
-                        email: currentUser.email,
-                    },
-                    order: currentOrder,
-                    totalPrice,
-                }),
-            })
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error("Failed to process order.");
-                    }
-                    return response.json();
-                })
-                // eslint-disable-next-line no-unused-vars
-                .then((data) => {
-                    setModalMessage(
-                        "Заказ принят в обработку. Вам выслано письмо с подтверждением заказа."
-                    );
-                    dispatch(cleanCart());
-                })
-                .catch((error) => {
-                    console.error("Error processing order:", error);
-                    setModalMessage(
-                        "Не удалось оформить заказ. Попробуйте позже."
-                    );
-                });
-        } else {
+    const handleBuy = async () => {
+        if (!currentUser.login) {
             setModalMessage(
                 "Пожалуйста, авторизуйтесь или зарегистрируйтесь для оформления заказа."
             );
+            setModalVisible(true);
+            return;
         }
-        setModalVisible(true);
+
+        try {
+            const orderDetails = {
+                user: {
+                    username: currentUser.login,
+                    email: currentUser.email,
+                },
+                order: currentOrder,
+                totalPrice,
+            };
+            await processOrder(orderDetails, API_HOST);
+            setModalMessage(
+                "Заказ принят в обработку. Вам выслано письмо с подтверждением заказа."
+            );
+            dispatch(cleanCart());
+        } catch (error) {
+            console.error("Error processing order:", error);
+            setModalMessage(
+                "Не удалось оформить заказ. Попробуйте позже."
+            );
+        } finally {
+            setModalVisible(true);
+        }
     };
 
     const closeModal = () => {
         setModalVisible(false);
         setModalMessage("");
-        navigate("/");
+        navigate("/authorization");
     };
 
     return (

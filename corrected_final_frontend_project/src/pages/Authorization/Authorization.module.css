@@ -1,12 +1,4 @@
-/* .button {
-    display: inline-block;
-    background-color: rgb(236, 67, 0);
-    color: #fff;
-    padding: 17px 35px;
-    border-radius: 45px;
-    font-size: 14px;
-    font-weight: 700;
-} */
+
 form {
     display: flex;
     flex-direction: column;
@@ -57,9 +49,43 @@ form {
     color: rgb(236, 67, 0);
     font-size: 24px;
 }
-/* .test {
-    width: 400px;
-    border: solid 1px rgb(236, 67, 0);
-    margin: 0 auto;
-    
-} */
+
+.user_info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; 
+    margin: 20px auto;
+    width: 400px; 
+    text-align: center; 
+}
+
+.input_phone {
+    padding: 6px 12px;
+    border: 1px solid rgb(236, 67, 0);
+    height: 40px;
+    font-size: 18px;
+    border-radius: 20px;
+    width: 100%; 
+    box-sizing: border-box; 
+}
+
+.button_authorized {
+    font-size: 18px;
+    padding: 10px 20px;
+    color: white;
+    background-color: rgb(236, 67, 0);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button_authorized:hover {
+    background-color: rgb(200, 55, 0); 
+}
+
+.button_authorized:disabled {
+    background-color: #aaa; 
+    cursor: not-allowed;
+}
+

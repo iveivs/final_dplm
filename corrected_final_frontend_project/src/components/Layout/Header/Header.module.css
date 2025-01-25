@@ -9,7 +9,6 @@
 .header_options {
     display: flex;
     justify-content: flex-end;
-    /* cursor: pointer; */
     gap: 10px;
 }
 .header_options i {

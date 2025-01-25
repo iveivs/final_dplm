@@ -22,7 +22,7 @@ export function AuthInitializer() {
                     return response.json();
                 })
                 .then((data) => {
-                    dispatch(addUser(data.username, "", data.email, false));
+                    dispatch(addUser(data.username, "", data.email, false, data.phone || null));
                 })
                 .catch((error) => {
                     console.error("Error restoring user session:", error);

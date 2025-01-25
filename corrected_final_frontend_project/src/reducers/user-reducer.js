@@ -2,19 +2,25 @@ import { ADD_USER } from "../actions/add-user";
 import { LOGOUT } from "../actions/logout";
 
 const initialState = {
-    login: null, 
+    login: null,
     password: null,
     email: null,
+    phone: null, 
     wasLogout: false,
 };
 
 const userReducer = (state = initialState, action) => {
-    // console.log("REDUCER ACTION", action.type, action.payload);
     switch (action.type) {
-        case ADD_USER:
-            return action.payload;
-        case LOGOUT:
-            return initialState
+        case ADD_USER: {
+            const newState = {
+                ...state,
+                ...action.payload, 
+            };
+            return newState;
+        }
+        case LOGOUT: {
+            return initialState;
+        }
         default:
             return state;
     }

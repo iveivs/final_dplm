@@ -3,7 +3,6 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import mongoose from './config/db.js';
-
 import routes from './routes/index.js';
 
 dotenv.config();
@@ -16,6 +15,12 @@ app.use(bodyParser.json());
 
 app.use('/', routes);
 
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Internal Server Error' });
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
+

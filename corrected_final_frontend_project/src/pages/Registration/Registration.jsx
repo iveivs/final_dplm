@@ -4,6 +4,9 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addUser } from "../../actions/add-user";
 import { API_HOST } from "../../config";
+import { Input } from "../../components/Layout/UI/Input/Input";
+import { Button } from "../../components/Layout/UI/Button/Button";
+
 
 export const Registration = () => {
     const [userLogin, setUserLogin] = useState("");
@@ -86,42 +89,39 @@ export const Registration = () => {
             ) : (
                 <form onSubmit={(e) => e.preventDefault()}>
                     <h2 className={styles.title_registration}>Registration</h2>
-                    <input
-                        className={styles.input_item}
+                    <Input
                         placeholder="Your e-mail..."
-                        type="text"
                         value={userEmail}
                         onChange={(e) => setUserEmail(e.target.value)}
-                    />
-                    <input
                         className={styles.input_item}
-                        type="text"
+                    />
+                    <Input
                         placeholder="Your login..."
                         value={userLogin}
                         onChange={(e) => setUserLogin(e.target.value)}
-                    />
-                    <input
                         className={styles.input_item}
+                    />
+                    <Input
                         type="password"
                         placeholder="Your password..."
                         value={userPassword}
                         onChange={(e) => setUserPassword(e.target.value)}
-                    />
-                    <input
                         className={styles.input_item}
+                    />
+                    <Input
                         type="password"
                         placeholder="Confirm password..."
                         value={confirmUserPassword}
                         onChange={(e) => setConfirmUserPassword(e.target.value)}
+                        className={styles.input_item}
                     />
                     {error && <p className={styles.error}>{error}</p>}
-                    <button
-                        type="button"
-                        className={`button ${styles.btn_modificated}`}
+                    <Button
                         onClick={onSubmit}
+                        className={styles.btn_modificated}
                     >
                         Registration
-                    </button>
+                    </Button>
                 </form>
             )}
             <div className={styles.registration_link}>
@@ -132,3 +132,4 @@ export const Registration = () => {
         </div>
     );
 };
+
