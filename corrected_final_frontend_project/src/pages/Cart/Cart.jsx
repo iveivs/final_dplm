@@ -6,11 +6,10 @@ import { selectCurrentUser } from "../../selectors/select-current-user";
 import { removeProductFromCart } from "../../actions/remove-product-from-cart";
 import { cleanCart } from "../../actions/clean-cart";
 import { getTotalPrice } from "../../utils/utils";
-import { addProductToCart } from "../../actions/add-product-to-cart";
 import { useNavigate } from "react-router-dom";
-import { API_HOST } from "../../config";
-import { updateOrderQuantity } from "../../utils/cartUtils";
-import { processOrder } from "../../utils/cartUtils";
+import { decreaceProductAmount, increaceProductAmount } from "../../actions/cart-actions";
+import { handleBuy } from "../../actions/order-actions";
+import { Button } from "../../components/Layout/UI/Button/Button";
 
 export const Cart = () => {
     const navigate = useNavigate();
@@ -27,24 +26,15 @@ export const Cart = () => {
         dispatch(removeProductFromCart(id));
     };
 
-    const decreaceProductAmount = (id) => {
-        const updatedOrder = updateOrderQuantity(currentOrder, id, -1);
-        if (updatedOrder.find((item) => item.id === id)?.amount === 0) {
-            dispatch(removeProductFromCart(id));
-        }
-        dispatch(cleanCart());
-        updatedOrder.forEach((item) => {
-            if (item.amount > 0) dispatch(addProductToCart(item));
-        });
+    const decreaceAmount = (id) => {
+        dispatch(decreaceProductAmount(id));
     };
 
-    const increaceProductAmount = (id) => {
-        const updatedOrder = updateOrderQuantity(currentOrder, id, 1);
-        dispatch(cleanCart());
-        updatedOrder.forEach((item) => dispatch(addProductToCart(item)));
+    const increaceAmount = (id) => {
+        dispatch(increaceProductAmount(id));
     };
 
-    const handleBuy = async () => {
+    const handleBuyClick = async () => {
         if (!currentUser.login) {
             setModalMessage(
                 "Пожалуйста, авторизуйтесь или зарегистрируйтесь для оформления заказа."
@@ -54,25 +44,12 @@ export const Cart = () => {
         }
 
         try {
-            const orderDetails = {
-                user: {
-                    username: currentUser.login,
-                    email: currentUser.email,
-                },
-                order: currentOrder,
-                totalPrice,
-            };
-            await processOrder(orderDetails, API_HOST);
-            setModalMessage(
-                "Заказ принят в обработку. Вам выслано письмо с подтверждением заказа."
+            await dispatch(
+                handleBuy(currentUser, currentOrder, totalPrice, setModalMessage, setModalVisible)
             );
-            dispatch(cleanCart());
         } catch (error) {
-            console.error("Error processing order:", error);
-            setModalMessage(
-                "Не удалось оформить заказ. Попробуйте позже."
-            );
-        } finally {
+            console.error("Ошибка оформления заказа:", error);
+            setModalMessage("Не удалось оформить заказ. Попробуйте позже.");
             setModalVisible(true);
         }
     };
@@ -104,25 +81,21 @@ export const Cart = () => {
                                     <div className={styles.amount}>
                                         <p
                                             className={styles.decreace}
-                                            onClick={() =>
-                                                decreaceProductAmount(order.id)
-                                            }
+                                            onClick={() => decreaceAmount(order.id)}
                                         >
                                             –
                                         </p>
                                         <p>{order.amount}</p>
                                         <p
                                             className={styles.increace}
-                                            onClick={() =>
-                                                increaceProductAmount(order.id)
-                                            }
+                                            onClick={() => increaceAmount(order.id)}
                                         >
                                             +
                                         </p>
                                     </div>
                                     <p>Amount: {order.amount}</p>
                                     <p>Price: {order.price}</p>
-                                    <div
+                                    <Button
                                         className={`${styles.modif_btn} button`}
                                         onClick={() => handleDelete(order.id)}
                                     >
@@ -131,12 +104,16 @@ export const Cart = () => {
                                             aria-hidden="true"
                                         ></i>
                                         Delete
-                                    </div>
+                                    </Button>
                                 </div>
                             </div>
                         ))
                     ) : (
-                        <>Your cart is empty</>
+                        <div>
+                            <p className={styles.empty_message}>Your cart is empty...</p>
+                            <br></br>
+                            <Button className={styles.main_page_btn} onClick={() => navigate("/")}>Main page</Button>
+                        </div>
                     )}
                 </div>
                 <div className={styles.total_orderinfo}>
@@ -145,17 +122,17 @@ export const Cart = () => {
                             <h2 className={styles.total_price_text}>
                                 total price: {totalPrice} ₽
                             </h2>
-                            <div
+                            <Button
                                 className={`button ${styles.buy_btn}`}
-                                onClick={handleBuy}
+                                onClick={handleBuyClick}
                             >
                                 <i
                                     className="fa fa-credit-card"
                                     aria-hidden="true"
                                 ></i>
                                 Buy
-                            </div>
-                            <div
+                            </Button>
+                            <Button
                                 className={`button ${styles.delete_btn}`}
                                 onClick={() => dispatch(cleanCart())}
                             >
@@ -164,7 +141,7 @@ export const Cart = () => {
                                     aria-hidden="true"
                                 ></i>
                                 Delete order
-                            </div>
+                            </Button>
                         </>
                     ) : (
                         <h2>total price: 0 ₽</h2>
@@ -176,12 +153,12 @@ export const Cart = () => {
                 <div className={styles.modal}>
                     <div className={styles.modal_content}>
                         <p>{modalMessage}</p>
-                        <button
+                        <Button
                             className={`button ${styles.close_btn}`}
                             onClick={closeModal}
                         >
                             OK
-                        </button>
+                        </Button>
                     </div>
                 </div>
             )}

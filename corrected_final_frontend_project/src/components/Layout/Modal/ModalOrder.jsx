@@ -4,10 +4,6 @@ import { closeModal } from "../../../actions/close-modal";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { addProductToCart } from "../../../actions/add-product-to-cart";
-import {
-    increaceProductAmount,
-    decreaceProductAmount,
-} from "../../../utils/utils";
 import { AmountCounter } from "../AmountCounter/AmountCounter";
 import { API_HOST } from "../../../config";
 
@@ -15,7 +11,7 @@ import { API_HOST } from "../../../config";
 export const ModalOrder = ({ currentOpenModalWindow }) => {
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [amount, setAmount] = useState(1);
+    const [amount, setAmount] = useState(1); 
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -46,7 +42,7 @@ export const ModalOrder = ({ currentOpenModalWindow }) => {
             return;
         }
         const currentProductInfo = {
-            id: product._id, 
+            id: product._id,
             description: product.description,
             src: product.src,
             name: product.name,
@@ -58,33 +54,22 @@ export const ModalOrder = ({ currentOpenModalWindow }) => {
     };
 
     return (
-        <div
-            className={styles.overlay}
-            onClick={handleCloseModal}
-            data-close="close"
-        >
+        <div className={styles.overlay} onClick={handleCloseModal} data-close="close">
             <div className={styles.wrapper}>
                 {loading ? (
                     <p>Loading...</p>
                 ) : product ? (
                     <div className={styles.item}>
-                        <img
-                            className={styles.img}
-                            src={product.src}
-                            alt="pizza"
-                        />
+                        <img className={styles.img} src={product.src} alt="pizza" />
                         <div className={styles.info}>
                             <h2 className={styles.title}>{product.name}</h2>
-                            <p className={styles.description}>
-                                {product.description}
-                            </p>
-                            <p className={styles.price}>
-                                Price: {product.price} ₽
-                            </p>
+                            <p className={styles.description}>{product.description}</p>
+                            <p className={styles.price}>Price: {product.price} ₽</p>
                             <AmountCounter
-                                decreaceProductAmount={decreaceProductAmount}
-                                increaceProductAmount={increaceProductAmount}
-                                setAmount={setAmount}
+                                decreaceProductAmount={() =>
+                                    setAmount((prev) => Math.max(prev - 1, 1))
+                                }
+                                increaceProductAmount={() => setAmount((prev) => prev + 1)}
                                 amount={amount}
                             />
                             <div className="button" onClick={addToCart}>

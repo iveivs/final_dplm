@@ -21,10 +21,8 @@
 }
 .total_orderinfo {
     width: 390px;
-    /* border: 1px solid #ccc; */
     padding: 20px;
     border-radius: 20px;
-    /* position: relative; */
     text-align: right;
 }
 .cart_item_info {
@@ -63,8 +61,6 @@
     margin-bottom: 20px;
 }
 .delete_btn {
-    /* position: absolute; */
-    /* right: 12px; */
     font-size: 18px !important;
     width: 200px;
     
@@ -108,4 +104,9 @@
 
 .close_btn {
     margin-top: 20px;
+}
+
+.empty_message {
+    margin-bottom: 20px;
+    font-size: 24px;
 }

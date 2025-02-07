@@ -37,8 +37,8 @@ const MapSection = () => {
                             ></div>
                         </div>
                         <div className={styles.map_info}>
-                            <p> <span className={styles.map_text}>Our adress:</span> Nowhere street - 66a</p>
-                            <p> <span className={styles.map_text}>Our phone:</span> +0 (011)0010100</p>
+                            <p> <span className={styles.map_text}>Our adress:</span> Moscow, Lenina st. 1</p>
+                            <p> <span className={styles.map_text}>Our phone:</span> +7-(987)-65-43-21</p>
                         </div>
                     </div>
                 </div>

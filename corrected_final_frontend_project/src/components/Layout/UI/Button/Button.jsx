@@ -13,7 +13,6 @@ export const Button = ({ onClick, children, type = "button", className = "" }) =
     );
 };
 
-// Прописываем типы для пропсов
 Button.propTypes = {
     onClick: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired,

@@ -1,19 +1,20 @@
-import styles from './AmountCounter.module.css'
+import styles from './AmountCounter.module.css';
 
-export const AmountCounter = ({decreaceProductAmount, increaceProductAmount, setAmount, amount}) => {
+// eslint-disable-next-line react/prop-types
+export const AmountCounter = ({ decreaceProductAmount, increaceProductAmount, amount }) => {
     return (
         <>
             <div className={styles.amount}>
                 <p
                     className={styles.decreace}
-                    onClick={() => decreaceProductAmount(setAmount)}
+                    onClick={decreaceProductAmount} 
                 >
                     –
                 </p>
                 <p>{amount}</p>
                 <p
                     className={styles.increace}
-                    onClick={() => increaceProductAmount(setAmount)}
+                    onClick={increaceProductAmount}
                 >
                     +
                 </p>
