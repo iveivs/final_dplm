@@ -5,7 +5,7 @@ import styles from "./Authorization.module.css";
 import { addPhone, deletePhone } from "../../actions/userPhoneActions";
 import { selectCurrentUser } from "../../selectors/select-current-user";
 import { API_HOST } from "../../config";
-import { addUser } from "../../actions/add-user";
+import { authSuccess } from "../../actions/authThunks"; // Заменили addUser на authSuccess
 import { Input } from "../../components/Layout/UI/Input/Input";
 import { Button } from "../../components/Layout/UI/Button/Button";
 
@@ -19,6 +19,7 @@ export const Authorization = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    
 
     const isUserLoggedIn = currentUser && currentUser.login;
 
@@ -45,15 +46,11 @@ export const Authorization = () => {
             }
             const data = await response.json();
             localStorage.setItem("authToken", data.token);
-            dispatch(
-                addUser(
-                    data.username,
-                    "",
-                    data.email,
-                    false,
-                    data.phone || null
-                )
-            );
+            dispatch(authSuccess({
+                username: data.username,
+                email: data.email,
+                phone: data.phone || null
+            }));
             setError("");
             navigate("/");
         } catch (error) {
@@ -65,7 +62,7 @@ export const Authorization = () => {
 
     const handleLogout = () => {
         localStorage.removeItem("authToken");
-        dispatch(addUser(null, null, null, true, null));
+        dispatch(authSuccess({ username: null, email: null, phone: null })); 
         navigate("/");
     };
 

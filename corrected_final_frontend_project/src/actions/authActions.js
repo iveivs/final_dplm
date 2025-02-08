@@ -1,9 +1,9 @@
-import { API_HOST } from '../config';
-import { addUser } from './add-user';
+import { API_HOST } from "../config";
+import { authSuccess } from "./authThunks"; 
 
-export const LOGIN_REQUEST = 'LOGIN_REQUEST';
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-export const LOGIN_FAILURE = 'LOGIN_FAILURE';
+export const LOGIN_REQUEST = "LOGIN_REQUEST";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_FAILURE = "LOGIN_FAILURE";
 
 const loginRequest = () => ({ type: LOGIN_REQUEST });
 const loginSuccess = () => ({ type: LOGIN_SUCCESS });
@@ -29,10 +29,16 @@ export const loginUser = (username, password) => {
             const data = await response.json();
             localStorage.setItem("authToken", data.token);
 
-            dispatch(addUser(data.username, "", data.email, true));
+            dispatch(authSuccess({ 
+                username: data.username,
+                email: data.email,
+                phone: data.phone || null,
+            }));
+
             dispatch(loginSuccess());
         } catch (error) {
             dispatch(loginFailure(error.message || "Invalid login or password."));
         }
     };
 };
+

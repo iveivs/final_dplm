@@ -1,5 +1,5 @@
 import { API_HOST } from "../config";
-import { addUser } from "./add-user";
+import { authSuccess } from "./authThunks";
 
 export const ADD_PHONE_REQUEST = "ADD_PHONE_REQUEST";
 export const ADD_PHONE_SUCCESS = "ADD_PHONE_SUCCESS";
@@ -8,7 +8,6 @@ export const ADD_PHONE_FAILURE = "ADD_PHONE_FAILURE";
 export const DELETE_PHONE_REQUEST = "DELETE_PHONE_REQUEST";
 export const DELETE_PHONE_SUCCESS = "DELETE_PHONE_SUCCESS";
 export const DELETE_PHONE_FAILURE = "DELETE_PHONE_FAILURE";
-
 
 export const addPhone = (phone) => async (dispatch, getState) => {
     dispatch({ type: ADD_PHONE_REQUEST });
@@ -32,15 +31,11 @@ export const addPhone = (phone) => async (dispatch, getState) => {
         const { currentUser } = getState();
         console.log("Current user in Redux:", currentUser);
 
-        dispatch(
-            addUser(
-                currentUser.login,
-                currentUser.password,
-                currentUser.email,
-                currentUser.wasLogout,
-                data.phone 
-            )
-        );
+        dispatch(authSuccess({ 
+            username: currentUser.login,
+            email: currentUser.email,
+            phone: data.phone,
+        }));
 
         dispatch({ type: ADD_PHONE_SUCCESS, payload: data.phone });
     } catch (error) {
@@ -66,15 +61,11 @@ export const deletePhone = () => async (dispatch, getState) => {
         const { currentUser } = getState();
         console.log("Current user before deleting phone:", currentUser);
 
-        dispatch(
-            addUser(
-                currentUser.login,
-                currentUser.password,
-                currentUser.email,
-                currentUser.wasLogout,
-                null
-            )
-        );
+        dispatch(authSuccess({ 
+            username: currentUser.login,
+            email: currentUser.email,
+            phone: null,
+        }));
 
         dispatch({ type: DELETE_PHONE_SUCCESS });
     } catch (error) {

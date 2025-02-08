@@ -1,35 +1,15 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { addUser } from "../actions/add-user";
-import { API_HOST } from "../config";
+import { authenticateUser } from "../actions/authThunks";
 
 export function AuthInitializer() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const token = localStorage.getItem("authToken");
-        if (token) {
-            fetch(`${API_HOST}/auth/user`, {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            })
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error("Failed to authenticate token");
-                    }
-                    return response.json();
-                })
-                .then((data) => {
-                    dispatch(addUser(data.username, "", data.email, false, data.phone || null));
-                })
-                .catch((error) => {
-                    console.error("Error restoring user session:", error);
-                    localStorage.removeItem("authToken");
-                });
-        }
+        dispatch(authenticateUser());
     }, [dispatch]);
 
+    // Компонент не отображает интерфейс, только выполняет логику аутентификации поэтому решил строчку ниже не убирать
     return null;
 }
+

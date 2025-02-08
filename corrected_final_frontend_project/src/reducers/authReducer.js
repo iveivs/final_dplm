@@ -1,21 +1,23 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE } from "../actions/authActions";
+import { AUTH_LOADING, AUTH_SUCCESS, AUTH_ERROR } from "../actions/authThunks";
 
 const initialState = {
     loading: false,
     error: null,
+    user: null,
 };
 
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
-        case LOGIN_REQUEST:
+        case AUTH_LOADING:
             return { ...state, loading: true, error: null };
-        case LOGIN_SUCCESS:
-            return { ...state, loading: false };
-        case LOGIN_FAILURE:
+        case AUTH_SUCCESS:
+            return { ...state, loading: false, user: action.payload, error: null };
+        case AUTH_ERROR:
             return { ...state, loading: false, error: action.payload };
         default:
             return state;
     }
 };
 
-export default authReducer;
+export default authReducer; 
+

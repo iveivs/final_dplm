@@ -1,22 +1,31 @@
-import { ADD_USER } from "../actions/add-user";
+import { AUTH_SUCCESS, AUTH_ERROR } from "../actions/authThunks";
 import { LOGOUT } from "../actions/logout";
 
 const initialState = {
     login: null,
     password: null,
     email: null,
-    phone: null, 
+    phone: null,
     wasLogout: false,
 };
 
 const userReducer = (state = initialState, action) => {
     switch (action.type) {
-        case ADD_USER: {
-            const newState = {
+        case AUTH_SUCCESS: {
+            return {
                 ...state,
-                ...action.payload, 
+                ...action.payload,
+                wasLogout: false,
             };
-            return newState;
+        }
+        case AUTH_ERROR: {
+            return {
+                ...state,
+                login: null,
+                email: null,
+                phone: null,
+                wasLogout: true,
+            };
         }
         case LOGOUT: {
             return initialState;

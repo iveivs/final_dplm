@@ -2,11 +2,10 @@ import styles from "./Registration.module.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addUser } from "../../actions/add-user";
+import { authSuccess } from "../../actions/authThunks"; // Заменили addUser на authSuccess
 import { API_HOST } from "../../config";
 import { Input } from "../../components/Layout/UI/Input/Input";
 import { Button } from "../../components/Layout/UI/Button/Button";
-
 
 export const Registration = () => {
     const [userLogin, setUserLogin] = useState("");
@@ -45,6 +44,12 @@ export const Registration = () => {
             .then((data) => {
                 localStorage.setItem("authToken", data.token);
                 setIsUserCreated(true);
+
+                dispatch(authSuccess({ // Заменили addUser на authSuccess
+                    username: newUser.username,
+                    email: newUser.email,
+                    phone: null
+                }));
             })
             .catch((error) => {
                 console.error("Error registering user:", error);
@@ -75,7 +80,6 @@ export const Registration = () => {
         };
 
         setIsUserCreated(true);
-        dispatch(addUser(userData.username, userData.password, userData.email));
         addNewUserToServer(userData);
         setError("");
     };
@@ -132,4 +136,3 @@ export const Registration = () => {
         </div>
     );
 };
-
